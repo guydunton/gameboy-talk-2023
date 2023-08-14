@@ -377,3 +377,7 @@ li {
   grid-gap: 2px;
   align-items: stretch;
 }
+
+.grid-child {
+  justify-self: center;
+}
