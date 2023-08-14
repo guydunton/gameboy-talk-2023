@@ -1,5 +1,7 @@
 # Gameboy emulation talk 2023
 
+[Slides](https://www.guydunton.com/gameboy-talk-2023/)
+
 ## Further resources
 
 - The Ultimate Game Boy Talk (33c3): https://www.youtube.com/watch?v=HyzD8pNlpwI
