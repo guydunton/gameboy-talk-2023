@@ -1,40 +1,589 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 
-		<title>reveal.js</title>
+    <title>reveal.js</title>
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/gb.css" />
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-background-color="rgb(185, 192, 179)">
+          <h1 class="r-fit-text">Building a Gameboy Emulator</h1>
+          <img class="r-stretch" src="/image/highrest-gameboy.png" width="50%" />
+          <p>5 years into a quick hack</p>
+        </section>
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+        <!-- -----------------------------------------------------------
+			INTRO
+		----------------------------------------------------------- -->
+        <section>
+          <h2>Who am I?</h2>
+          <ul>
+            <li>Guy Dunton</li>
+            <li>Software engineer at The Economist</li>
+            <li>Studied video games at university</li>
+            <li>Love low level engineering</li>
+          </ul>
+        </section>
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+        <section>
+          <h2>Rundown</h2>
+          <ul>
+            <li class="fragment">What is an emulator?</li>
+            <li class="fragment">Coding a CPU</li>
+            <li class="fragment">Journey of a pixel</li>
+            <li class="fragment">What's taking so long?</li>
+            <li class="fragment">Lessons learnt</li>
+          </ul>
+        </section>
+
+        <!-- -----------------------------------------------------------
+			WHAT IS AN EMULATOR
+		----------------------------------------------------------- -->
+        <section data-background-color="rgb(185, 192, 179)">
+          <h2 class="r-fit-text">What is an Emulator?</h2>
+        </section>
+
+        <section>
+          <h2>What is an emulator?</h2>
+          <ul>
+            <li>A piece of software which behaves like something else</li>
+            <li>In this case it's behaving as a Gameboy</li>
+            <li>
+              Gameboy games are stored as bytes & our emulator converts the input & bytes into audio
+              & visual data
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>What parts are in a gameboy?</h2>
+          <span class="fragment"></span>
+          <span class="fragment"></span>
+          <span class="fragment"></span>
+          <span class="fragment"></span>
+          <div data-animate data-src="image/gameboy-outside.svg">
+            <!-- 
+              {
+                "setup": [
+                  { "element": "#cartridge-group", "modifier": "attr", "parameters": [ {"class": "fragment", "data-fragment-index": "0"} ] },
+                  { "element": "#screen-group", "modifier": "attr", "parameters": [ {"class": "fragment", "data-fragment-index": "1"} ] },
+                  { "element": "#button-group", "modifier": "attr", "parameters": [ {"class": "fragment", "data-fragment-index": "2"} ] },
+                  { "element": "#audio-group", "modifier": "attr", "parameters": [ {"class": "fragment", "data-fragment-index": "3"} ] }
+                ]
+              }
+              -->
+          </div>
+        </section>
+
+        <section>
+          <h2>Gameboy hardware</h2>
+          <!-- Image showing the main features of the gameboy from the outside -->
+          <div class="r-stack">
+            <img class="fragment" src="image/motherboard.png" alt="Gameboy motherboard" />
+            <img
+              class="fragment"
+              src="image/motherboard-annotated.png"
+              alt="Gameboy motherboard with labels showing what each chip is"
+            />
+          </div>
+        </section>
+
+        <section>
+          <section>
+            <h2>Memory-mapped IO</h2>
+            <p>8kb RAM but 64kb of addressable memory</p>
+            <img
+              class="r-stretch"
+              src="image/memory_map.png"
+              alt="Map of the memory of a gameboy"
+            />
+          </section>
+          <section>
+            <h2>Hardware IO registers</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Address</th>
+                  <th>Name</th>
+                  <th>Read/Write</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>$FF40</td>
+                  <td>LCD control</td>
+                  <td>R/W</td>
+                </tr>
+                <tr>
+                  <td>$FF41</td>
+                  <td>LCD status</td>
+                  <td>Mixed</td>
+                </tr>
+                <tr>
+                  <td>$FF42</td>
+                  <td>Viewport Y position</td>
+                  <td>R/W</td>
+                </tr>
+                <tr>
+                  <td>$FF43</td>
+                  <td>Viewport X position</td>
+                  <td>R/W</td>
+                </tr>
+                <tr>
+                  <td>$FF44</td>
+                  <td>LCD Y coordinate</td>
+                  <td>R</td>
+                </tr>
+                <tr>
+                  <td>$FF45</td>
+                  <td>LY compare</td>
+                  <td>R/W</td>
+                </tr>
+                <tr>
+                  <td>$FF47</td>
+                  <td>BG palette data</td>
+                  <td>R/W</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </section>
+
+        <section>
+          <h2 class="r-fit-text">More information</h2>
+          <!-- Link here to the slides & more documentation about gameboy emulation -->
+          <div class="grid-container">
+            <p class="grid-child">
+              There isn't enough time to cover everything so this link goes back to the presentation
+              where I've written up some notes
+            </p>
+            <img
+              class="grid-child"
+              style="padding-left: 5rem"
+              src="image/qr.svg"
+              alt="QR code linking to https://github.com/guydunton/gameboy-talk-2023"
+            />
+          </div>
+        </section>
+
+        <!-- -----------------------------------------------------------
+			BUILDING A CPU FROM SCRATCH
+		----------------------------------------------------------- -->
+        <section data-background-color="rgb(185, 192, 179)">
+          <h2 class="r-fit-text">CPU from scratch</h2>
+        </section>
+        <section>
+          <h2 class="r-fit-text">Opcode tables</h2>
+          <img
+            class="r-stretch"
+            src="image/opcode_table.png"
+            alt="Table showing all the opcodes for GBZ80 assembly language"
+          />
+        </section>
+        <section>
+          <h2>CPU from scratch</h2>
+          <span class="fragment"></span>
+          <span class="fragment"></span>
+          <span class="fragment"></span>
+          <span class="fragment"></span>
+          <span class="fragment"></span>
+          <span class="fragment"></span>
+          <span class="fragment"></span>
+          <span class="fragment"></span>
+          <span class="fragment"></span>
+          <span class="fragment"></span>
+          <span class="fragment"></span>
+          <span class="fragment"></span>
+          <span class="fragment"></span>
+          <span class="fragment"></span>
+          <span class="fragment"></span>
+          <span class="fragment"></span>
+          <div data-animate data-src="image/gameboy.svg">
+            <!--
+          {
+            "setup": [
+              { "element": "#useless-labels", "modifier": "opacity", "parameters": [ 0 ] },
+              { "element": "#useful-labels", "modifier": "opacity", "parameters": [ 0 ] },
+              { "element": "#dec-layer", "modifier": "opacity", "parameters": [ 0 ] },
+              { "element": "#jp-layer", "modifier": "opacity", "parameters": [ 0 ] },
+              { "element": "#ld-layer", "modifier": "opacity", "parameters": [ 0 ] },
+              { "element": "#arrow", "modifier": "opacity", "parameters": [ 0 ] },
+              { "element": "#code", "modifier": "opacity", "parameters": [ 0 ] },
+              { "element": "#ld-instruction", "modifier": "attr", "duration": 400, "parameters": [ { "transform":"translate(0,-50)" } ] },
+              { "element": "#jp-instruction", "modifier": "attr", "duration": 400, "parameters": [ { "transform":"translate(0,-50)" } ] },
+              { "element": "#dec-instruction", "modifier": "attr", "duration": 400, "parameters": [ { "transform":"translate(0,-50)" } ] },
+              { "modifier": "text", "parameters": [ "zero:1", { "id": "zero-1", "opacity": "0", "x": "228", "y": "125", "font-size": "22", "font-family": "monospace" } ] },
+              { "modifier": "text", "parameters": [ "zero:0", { "id": "zero-0", "opacity": "0", "x": "228", "y": "125", "font-size": "22", "font-family": "monospace" } ] },
+              { "modifier": "text", "parameters": [ "0000", { "id": "pc-text-0", "opacity": "0", "x": "150", "y": "304", "font-size": "30", "font-family": "monospace" } ] },
+              { "modifier": "text", "parameters": [ "0002", { "id": "pc-text-2", "opacity": "0", "x": "150", "y": "304", "font-size": "30", "font-family": "monospace" } ] },
+              { "modifier": "text", "parameters": [ "0003", { "id": "pc-text-3", "opacity": "0", "x": "150", "y": "304", "font-size": "30", "font-family": "monospace" } ] },
+              { "modifier": "text", "parameters": [ "0006", { "id": "pc-text-6", "opacity": "0", "x": "150", "y": "304", "font-size": "30", "font-family": "monospace" } ] },
+              { "modifier": "text", "parameters": [ "0", { "id": "a-text-0", "opacity": "0", "x": "150", "y": "119", "font-size": "30", "font-family": "monospace" } ] },
+              { "modifier": "text", "parameters": [ "1", { "id": "a-text-1", "opacity": "0", "x": "150", "y": "119", "font-size": "30", "font-family": "monospace" } ] },
+              { "modifier": "text", "parameters": [ "2", { "id": "a-text-2", "opacity": "0", "x": "150", "y": "119", "font-size": "30", "font-family": "monospace" } ] },
+              { "modifier": "text", "parameters": [ "3", { "id": "a-text-3", "opacity": "0", "x": "150", "y": "119", "font-size": "30", "font-family": "monospace" } ] }
+              ],
+              "animation": [
+              [],
+              [
+                { "element": "#useful-labels", "modifier": "opacity", "parameters": [ 1 ] }
+              ],
+              [
+                { "element": "#useless-labels", "modifier": "opacity", "parameters": [ 1 ] }
+              ],
+              [
+                { "element": "#useless-labels", "modifier": "opacity", "parameters": [ 0 ] },
+                { "element": "#code", "modifier": "opacity", "parameters": [ 1 ] },
+                { "element": "#pc-text-0", "modifier": "opacity", "parameters": [ 1 ] },
+                { "element": "#arrow", "modifier": "opacity", "parameters": [ 1 ] }
+              ],
+              [
+                { "element": "#ld-layer", "modifier": "opacity", "parameters": [ 1 ] }
+              ],
+              [
+                { "element": "#pc-text-0", "modifier": "opacity", "parameters": [ 0 ] },
+                { "element": "#pc-text-2", "modifier": "opacity", "parameters": [ 1 ] },
+                { "element": "#arrow", "modifier": "move", "duration": 1400, "parameters": [ 490, 95 ] },
+                { "element": "#a-text-3", "modifier": "opacity", "parameters": [ 1 ] },
+                { "element": "#ld-layer", "modifier": "opacity", "parameters": [ 0 ] }
+              ],
+              [
+                { "element": "#dec-layer", "modifier": "opacity", "parameters": [ 1 ] }
+              ],
+              [
+                { "element": "#pc-text-2", "modifier": "opacity", "parameters": [ 0 ] },
+                { "element": "#pc-text-3", "modifier": "opacity", "parameters": [ 1 ] },
+                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 525, 95 ] },
+                { "element": "#a-text-3", "modifier": "opacity", "parameters": [ 0 ] },
+                { "element": "#a-text-2", "modifier": "opacity", "parameters": [ 1 ] },
+                { "element": "#zero-0", "modifier": "opacity", "parameters": [ 1 ] },
+                { "element": "#dec-layer", "modifier": "opacity", "parameters": [ 0 ] }
+              ],
+              [
+                { "element": "#jp-layer", "modifier": "opacity", "parameters": [ 1 ] }
+              ],
+              [
+                { "element": "#pc-text-3", "modifier": "opacity", "parameters": [ 0 ] },
+                { "element": "#pc-text-6", "modifier": "opacity", "parameters": [ 1 ] },
+                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 645, 95 ] }
+              ],
+              [
+                { "element": "#jp-layer", "modifier": "opacity", "parameters": [ 0 ] },
+                { "element": "#pc-text-6", "modifier": "opacity", "parameters": [ 0 ] },
+                { "element": "#pc-text-2", "modifier": "opacity", "parameters": [ 1 ] },
+                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 490, 95 ] }
+              ],
+              [
+                { "element": "#pc-text-2", "modifier": "opacity", "parameters": [ 0 ] },
+                { "element": "#pc-text-3", "modifier": "opacity", "parameters": [ 1 ] },
+                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 525, 95 ] },
+                { "element": "#a-text-2", "modifier": "opacity", "parameters": [ 0 ] },
+                { "element": "#a-text-1", "modifier": "opacity", "parameters": [ 1 ] }
+              ],
+              [
+                { "element": "#pc-text-3", "modifier": "opacity", "parameters": [ 0 ] },
+                { "element": "#pc-text-6", "modifier": "opacity", "parameters": [ 1 ] },
+                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 645, 95 ] }
+              ],
+              [
+                { "element": "#pc-text-6", "modifier": "opacity", "parameters": [ 0 ] },
+                { "element": "#pc-text-2", "modifier": "opacity", "parameters": [ 1 ] },
+                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 490, 95 ] }
+              ],
+              [
+                { "element": "#pc-text-2", "modifier": "opacity", "parameters": [ 0 ] },
+                { "element": "#pc-text-3", "modifier": "opacity", "parameters": [ 1 ] },
+                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 525, 95 ] },
+                { "element": "#a-text-1", "modifier": "opacity", "parameters": [ 0 ] },
+                { "element": "#a-text-0", "modifier": "opacity", "parameters": [ 1 ] },
+                { "element": "#zero-0", "modifier": "opacity", "parameters": [ 0 ] },
+                { "element": "#zero-1", "modifier": "opacity", "parameters": [ 1 ] }
+              ],
+              [
+                { "element": "#pc-text-3", "modifier": "opacity", "parameters": [ 0 ] },
+                { "element": "#pc-text-6", "modifier": "opacity", "parameters": [ 1 ] },
+                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 645, 95 ] }
+              ],
+              [
+                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 700, 95 ] }
+              ]
+              ]
+            }
+          --></div>
+        </section>
+
+        <!-- -----------------------------------------------------------
+			JOURNEY OF A PIXEL
+		----------------------------------------------------------- -->
+        <section data-background-color="rgb(185, 192, 179)">
+          <h2 class="r-fit-text">Journey of a pixel</h2>
+        </section>
+
+        <section
+          data-auto-animate
+          data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)"
+        >
+          <h2 class="r-fit-text">The background map</h2>
+          <!-- Show the screen turned into a grid using stacked images-->
+          <div class="r-stack">
+            <img src="image/tetris-game.png" alt="Game of tetris" />
+            <img
+              class="fragment"
+              src="image/tetris-tiles-1-small.png"
+              alt="Tetris with just the background layer"
+            />
+            <img
+              data-id="screen"
+              class="fragment"
+              src="image/tetris-tiles-2-small.png"
+              alt="Tetris with the tile grid"
+            />
+          </div>
+        </section>
+
+        <section
+          data-auto-animate
+          data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)"
+        >
+          <h2 class="r-fit-text">The background map</h2>
+          <!-- Show the grid to the left & the sprites & indices on the right -->
+          <div class="side-by-side-container">
+            <img
+              data-id="screen"
+              class="fragment side-by-side-child"
+              src="image/tetris-tiles-2-small.png"
+              alt="Tetris with the tile grid"
+            />
+            <div class="side-by-size-child">
+              <img
+                class="fragment"
+                src="image/tetris-tiles-3.png"
+                alt="Background tiles of Tetris"
+              />
+              <img class="fragment" src="image/index-map.png" alt="Background tiles of Tetris" />
+            </div>
+          </div>
+        </section>
+
+        <section data-auto-animate>
+          <h2 class="r-fit-text">What makes a tile</h2>
+          <!-- Show how a tile is encoded -->
+          <div class="side-by-side-container">
+            <div class="side-by-side-half-child">
+              <div style="background: #9bbc0f; margin: 10px; border-radius: 5px">00</div>
+              <div style="background: #83a30e; margin: 10px; border-radius: 5px">01</div>
+              <div style="background: #306230; margin: 10px; border-radius: 5px">10</div>
+              <div style="background: #0f380f; margin: 10px; border-radius: 5px">11</div>
+            </div>
+            <div class="side-by-size-child">
+              <img data-id="tiles" style="max-width: 80%" src="image/tile.png" alt="A tile " />
+            </div>
+            <div class="side-by-size-child">
+              <pre data-id="output" class="fragment"><code>00000000,00000000
+01111110,01111110
+01100000,01100000
+01111100,01111100
+01100000,01100000
+01100000,01100000
+01111110,01111110
+00000000,00000000</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <section data-auto-animate>
+          <h2 class="r-fit-text">What makes a tile</h2>
+          <!-- Show how a tile is encoded -->
+          <div class="side-by-side-container">
+            <div class="side-by-size-child">
+              <img data-id="tiles" style="max-width: 80%" src="image/tile.png" alt="A tile " />
+            </div>
+            <div class="side-by-size-child">
+              <pre><code data-id="output">00,00
+7E,7E 
+60,60 
+7C,7C 
+60,60 
+60,60 
+7E,7E 
+00,00 </code></pre>
+            </div>
+          </div>
+        </section>
+
+        <section data-auto-animate>
+          <h2 class="r-fit-text">What makes a tile</h2>
+          <div class="side-by-side-container">
+            <div class="side-by-size-child">
+              <img data-id="tiles" src="image/tile.png" alt="A tile " />
+            </div>
+            <div class="side-by-side-child">
+              <pre>
+                <code data-id="output">00,00,7E,7E,60,60,7C,7C,
+60,60,60,60,7E,7E,00,00</code>
+              </pre>
+            </div>
+          </div>
+        </section>
+
+        <section data-auto-animate>
+          <h2 class="r-fit-text">How to run forever</h2>
+          <!-- Show the huge buffer then overlay the window -->
+          <p data-id="text">The video data buffer is 256x256 pixels</p>
+          <img data-id="image" src="image/background-1.png" alt="Complete video buffer" />
+          <asite clas="notes">
+            Images provided by https://www.copetti.org/writings/consoles/game-boy/
+          </asite>
+        </section>
+
+        <section data-auto-animate>
+          <h2 class="r-fit-text">How to run forever</h2>
+          <!-- Move the window to the left & show the final render -->
+          <p data-id="text">
+            Only 160x144 pixels are shown on screen at once. FF42 & FF43 store the viewport X & Y
+            coordinate. The camera wraps around the edge of the buffer
+          </p>
+          <img
+            data-id="image"
+            src="image/background-2.png"
+            alt="Video buffer showing the viewport"
+          />
+        </section>
+
+        <section data-auto-animate>
+          <h2 class="r-fit-text">How to run forever</h2>
+          <!-- Move the window to the left & show the final render -->
+          <p data-id="text">
+            Only 160x144 pixels are shown on screen at once. FF42 & FF43 store the viewport X & Y
+            coordinate. The camera wraps around the edge of the buffer
+          </p>
+          <div class="grid-container">
+            <img
+              data-id="image"
+              class="grid-child"
+              src="image/background-2.png"
+              alt="Video buffer showing the viewport"
+            />
+            <img src="image/background-3.png" class="grid-child" alt="Final render" />
+          </div>
+        </section>
+
+        <section data-auto-animate>
+          <h2 class="r-fit-text">How to run forever</h2>
+          <!-- GIF of https://www.youtube.com/watch?v=HyzD8pNlpwI&t=1675s from 32:54 - 33:02 -->
+          <img
+            src="image/infinite-scroll.gif"
+            alt="Animation showing how the gameboy loads Mario levels off screen before the viewport reaches it"
+          />
+
+          <aside class="notes">
+            Video provided by media.ccc.de, The Ultimate Game Boy Talk (33c3),
+            https://www.youtube.com/watch?v=HyzD8pNlpwI
+          </aside>
+        </section>
+
+        <!-- -----------------------------------------------------------
+			WHAT'S TAKING SO LONG
+		----------------------------------------------------------- -->
+        <section data-background-color="rgb(185, 192, 179)">
+          <h2 class="r-fit-text">What's taking so long</h2>
+        </section>
+
+        <section>
+          <h2 class="r-fit-text">Not actually 5 years</h2>
+          <span class="fragment"></span>
+          <span class="fragment"></span>
+          <span class="fragment"></span>
+          <span class="fragment"></span>
+          <span class="fragment"></span>
+          <div data-animate data-src="image/code-frequency.svg">
+            <!-- 
+              {
+                "setup": [
+                  { "element": "#label-1", "modifier": "attr", "parameters": [ {"class": "fragment", "data-fragment-index": "0"} ] },
+                  { "element": "#label-2-group", "modifier": "attr", "parameters": [ {"class": "fragment", "data-fragment-index": "1"} ] },
+                  { "element": "#label-3", "modifier": "attr", "parameters": [ {"class": "fragment", "data-fragment-index": "2"} ] },
+                  { "element": "#label-4", "modifier": "attr", "parameters": [ {"class": "fragment", "data-fragment-index": "3"} ] },
+                  { "element": "#label-5", "modifier": "attr", "parameters": [ {"class": "fragment", "data-fragment-index": "4"} ] }
+                ]
+              }
+             -->
+          </div>
+        </section>
+
+        <section>
+          <h2 class="r-fit-text">Picking priorities</h2>
+          <p>I had a set of priorities when writing my emulator</p>
+          <ol>
+            <li class="fragment">Learn Rust</li>
+            <li class="fragment">Use TDD as much as possible</li>
+            <li class="fragment">Work on a large piece of software</li>
+            <li class="fragment">Write a working emulator</li>
+          </ol>
+          <p class="fragment">My lowest priority was having working software</p>
+        </section>
+
+        <section data-background-image="image/journey.jpg" data-background-opacity="0.4">
+          <h2 class="r-fit-text">Enjoying the journey</h2>
+          <p>
+            I keep coming back to this project because writing it has been fun & writing it is more
+            interesting than seeing it completed
+          </p>
+        </section>
+
+        <!-- -----------------------------------------------------------
+			FINALLY
+		----------------------------------------------------------- -->
+        <section data-background-color="rgb(185, 192, 179)">
+          <h2 class="r-fit-text">Lessons learnt</h2>
+        </section>
+
+        <section>
+          <h2 class="r-fit-text">Lessons learnt</h2>
+          <ul>
+            <li class="fragment">Writing an emulator is a unique challenge</li>
+            <li class="fragment">
+              If you want a working piece of software be ruthless with prioritising what you work on
+            </li>
+            <li class="fragment">
+              Personal projects don't have to be about creating working software
+            </li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script src="plugin/animate/plugin.js"></script>
+    <script src="plugin/animate/svg.min.js"></script>
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        animate: {
+          autoplay: true, // Needed for animations to work apparently
+        },
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealAnimate],
+      });
+    </script>
+  </body>
 </html>
