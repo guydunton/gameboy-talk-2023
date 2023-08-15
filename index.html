@@ -85,7 +85,7 @@
           </ul>
         </section>
 
-        <section>
+        <section data-transition="slide-in fade-out">
           <h2>Gameboy hardware</h2>
           <span class="fragment"></span>
           <span class="fragment"></span>
@@ -105,16 +105,24 @@
           </div>
         </section>
 
-        <section>
+        <section data-transition="zoom-in slide-out" data-transition-speed="slow">
           <h2>Gameboy hardware</h2>
           <!-- Image showing the main features of the gameboy from the outside -->
-          <div class="r-stack">
-            <img src="image/motherboard.png" alt="Gameboy motherboard" />
-            <img
-              class="fragment"
-              src="image/motherboard-annotated.png"
-              alt="Gameboy motherboard with labels showing what each chip is"
-            />
+          <span class="fragment"></span>
+          <span class="fragment"></span>
+          <span class="fragment"></span>
+          <span class="fragment"></span>
+          <div data-animate data-src="image/motherboard.svg">
+            <!-- 
+              {
+                "setup": [
+                  { "element": "#cpu-group", "modifier": "attr", "parameters": [ {"class": "fragment", "data-fragment-index": "0"} ] },
+                  { "element": "#vram-group", "modifier": "attr", "parameters": [ {"class": "fragment", "data-fragment-index": "1"} ] },
+                  { "element": "#ram-group", "modifier": "attr", "parameters": [ {"class": "fragment", "data-fragment-index": "2"} ] },
+                  { "element": "#audio-group", "modifier": "attr", "parameters": [ {"class": "fragment", "data-fragment-index": "3"} ] }
+                ]
+              }
+             -->
           </div>
         </section>
 
@@ -217,15 +225,6 @@
             <li class="fragment">Those instructions can change the registers or memory</li>
             <li class="fragment">A few instructions change the CPU e.g. enable interrupts</li>
           </ul>
-        </section>
-
-        <section>
-          <h2 class="r-fit-text">Opcode tables</h2>
-          <img
-            class="r-stretch"
-            src="image/opcode_table.png"
-            alt="Table showing all the opcodes for GBZ80 assembly language"
-          />
         </section>
 
         <section>
@@ -358,6 +357,15 @@
               ]
             }
           --></div>
+        </section>
+
+        <section>
+          <h2 class="r-fit-text">Opcode tables</h2>
+          <img
+            class="r-stretch"
+            src="image/opcode_table.png"
+            alt="Table showing all the opcodes for GBZ80 assembly language"
+          />
         </section>
 
         <!-- -----------------------------------------------------------
