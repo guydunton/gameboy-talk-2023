@@ -213,9 +213,20 @@ gulp.task(
   'package',
   gulp.series(() =>
     gulp
-      .src(['./index.html', './dist/**', './lib/**', './images/**', './plugin/**', './**/*.md'], {
-        base: './',
-      })
+      .src(
+        [
+          './index.html',
+          './dist/**',
+          './lib/**',
+          './images/**',
+          './fonts/**',
+          './plugin/**',
+          './**/*.md',
+        ],
+        {
+          base: './',
+        }
+      )
       .pipe(zip('reveal-js-presentation.zip'))
       .pipe(gulp.dest('./'))
   )
