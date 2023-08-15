@@ -1,0 +1,80 @@
+/**
+ * Black theme for reveal.js. This is the opposite of the 'white' theme.
+ *
+ * By Hakim El Hattab, http://hakim.se
+ */
+
+
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+// ---------------------------------------------
+
+
+// Include theme-specific fonts
+@font-face {
+    font-family: 'PressStart2P';
+    src: url(../../../fonts/PressStart2P-Regular.ttf);
+}
+
+
+// Override theme settings (see ../template/settings.scss)
+$backgroundColor: #191919;
+
+$mainColor: #fff;
+$headingColor: #fff;
+
+$mainFontSize: 42px;
+$mainFont: Ubuntu, 'sans-serif';
+$headingFont: Ubuntu, 'sans-serif';
+$headingTextShadow: none;
+$headingLetterSpacing: normal;
+$headingTextTransform: uppercase;
+$headingFontWeight: 600;
+$linkColor: #42affa;
+$linkColorHover: lighten( $linkColor, 15% );
+$selectionBackgroundColor: rgba( $linkColor, 0.75 );
+
+$heading1Size: 1.5em;
+$heading2Size: 1.6em;
+$heading3Size: 1.3em;
+$heading4Size: 1.0em;
+
+// Change text colors against light slide backgrounds
+@include light-bg-text-color(#222222);
+
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------
+
+.main-heading {
+    font-family: 'PressStart2P', Ubuntu, 'sans-serif';
+}
+
+li {
+    padding-bottom: 0.25em;
+}
+
+.side-by-side-container {
+    display: flex;
+}
+
+.side-by-side-child {
+    flex: 1;
+}
+
+.side-by-side-half-child {
+    flex: 0.5;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2px;
+    align-items: stretch;
+}
+
+.grid-child {
+    justify-self: center;
+}

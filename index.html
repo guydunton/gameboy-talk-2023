@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" href="dist/reset.css" />
     <link rel="stylesheet" href="dist/reveal.css" />
-    <link rel="stylesheet" href="dist/theme/gb.css" />
+    <link rel="stylesheet" href="dist/theme/true-gb.css" />
 
     <!-- Theme used for syntax highlighted code -->
     <link rel="stylesheet" href="plugin/highlight/monokai.css" />
@@ -20,9 +20,9 @@
     <div class="reveal">
       <div class="slides">
         <section data-background-color="rgb(185, 192, 179)">
-          <h1 class="r-fit-text">Building a Gameboy Emulator</h1>
+          <h1 style="font-family: 'PressStart2P'">Building a Gameboy Emulator</h1>
           <img class="r-stretch" src="/image/highrest-gameboy.png" width="50%" />
-          <p>5 years into a quick hack</p>
+          <p class="main-heading">5 years into a quick hack</p>
         </section>
 
         <!-- -----------------------------------------------------------
@@ -34,6 +34,7 @@
             <li>Guy Dunton</li>
             <li>Software engineer at The Economist</li>
             <li>Studied video games at university</li>
+            <li>By day I write TS services with GraphQL</li>
             <li>Love low level engineering</li>
           </ul>
         </section>
@@ -53,7 +54,7 @@
 			WHAT IS AN EMULATOR
 		----------------------------------------------------------- -->
         <section data-background-color="rgb(185, 192, 179)">
-          <h2 class="r-fit-text">What is an Emulator?</h2>
+          <h2 style="font-family: 'PressStart2P'">What is an Emulator?</h2>
         </section>
 
         <section>
@@ -69,7 +70,16 @@
         </section>
 
         <section>
-          <h2>What parts are in a gameboy?</h2>
+          <h2 class="r-fit-text">Why write an emulator?</h2>
+          <ul>
+            <li class="fragment">Getting someone else's code to working is great!</li>
+            <li class="fragment">It's fun discovering how the Gameboy worked</li>
+            <li class="fragment">It's a challenge</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Gameboy hardware</h2>
           <span class="fragment"></span>
           <span class="fragment"></span>
           <span class="fragment"></span>
@@ -92,7 +102,7 @@
           <h2>Gameboy hardware</h2>
           <!-- Image showing the main features of the gameboy from the outside -->
           <div class="r-stack">
-            <img class="fragment" src="image/motherboard.png" alt="Gameboy motherboard" />
+            <img src="image/motherboard.png" alt="Gameboy motherboard" />
             <img
               class="fragment"
               src="image/motherboard-annotated.png"
@@ -160,6 +170,12 @@
               </tbody>
             </table>
           </section>
+
+          <section>
+            <h2>Gameboy audio channel breakdown</h2>
+            <p>Channel 1 - Square 1</p>
+            <img src="image/audio-channel.svg" alt="" />
+          </section>
         </section>
 
         <section>
@@ -183,7 +199,7 @@
 			BUILDING A CPU FROM SCRATCH
 		----------------------------------------------------------- -->
         <section data-background-color="rgb(185, 192, 179)">
-          <h2 class="r-fit-text">CPU from scratch</h2>
+          <h2 style="font-family: 'PressStart2P'">CPU from scratch</h2>
         </section>
 
         <section>
@@ -341,7 +357,7 @@
 			JOURNEY OF A PIXEL
 		----------------------------------------------------------- -->
         <section data-background-color="rgb(185, 192, 179)">
-          <h2 class="r-fit-text">Journey of a pixel</h2>
+          <h2 style="font-family: 'PressStart2P'">Journey of a pixel</h2>
         </section>
 
         <section
@@ -456,7 +472,7 @@
           <!-- Show the huge buffer then overlay the window -->
           <p data-id="text">The video data buffer is 256x256 pixels</p>
           <img data-id="image" src="image/background-1.png" alt="Complete video buffer" />
-          <aside clas="notes">
+          <aside class="notes">
             Images provided by https://www.copetti.org/writings/consoles/game-boy/
           </aside>
         </section>
@@ -511,7 +527,7 @@
 			WHAT'S TAKING SO LONG
 		----------------------------------------------------------- -->
         <section data-background-color="rgb(185, 192, 179)">
-          <h2 class="r-fit-text">What's taking so long</h2>
+          <h2 style="font-family: 'PressStart2P'">What's taking so long</h2>
         </section>
 
         <section>
@@ -560,7 +576,7 @@
 			FINALLY
 		----------------------------------------------------------- -->
         <section data-background-color="rgb(185, 192, 179)">
-          <h2 class="r-fit-text">Lessons learnt</h2>
+          <h2 style="font-family: 'PressStart2P'">Lessons learnt</h2>
         </section>
 
         <section>
@@ -577,7 +593,7 @@
         </section>
 
         <section data-background-color="rgb(185, 192, 179)">
-          <h2 class="r-fit-text">Thank you</h2>
+          <h2 style="font-family: 'PressStart2P'">Thank you</h2>
           <img
             src="image/qr.svg"
             alt="QR code linking to https://github.com/guydunton/gameboy-talk-2023"
