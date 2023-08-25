@@ -40,8 +40,8 @@
           <ul>
             <li>Guy Dunton</li>
             <li>Software engineer at The Economist</li>
-            <li>Studied video games at university</li>
             <li>By day I write TS services with GraphQL</li>
+            <li>Studied video games at university</li>
             <li>Love low level engineering</li>
           </ul>
         </section>
@@ -73,6 +73,18 @@
               & visual data
             </li>
           </ul>
+        </section>
+
+        <section>
+          <h2 class="r-fit-text">Picking priorities</h2>
+          <p>I had a set of priorities when writing my emulator</p>
+          <ol>
+            <li class="fragment">Learn Rust</li>
+            <li class="fragment">Use TDD as much as possible</li>
+            <li class="fragment">Work on a large piece of software</li>
+            <li class="fragment">Write a working emulator</li>
+          </ol>
+          <p class="fragment">My lowest priority was having working software</p>
         </section>
 
         <section>
@@ -289,7 +301,7 @@
               [
                 { "element": "#pc-text-0", "modifier": "opacity", "parameters": [ 0 ] },
                 { "element": "#pc-text-2", "modifier": "opacity", "parameters": [ 1 ] },
-                { "element": "#arrow", "modifier": "move", "duration": 1400, "parameters": [ 490, 95 ] },
+                { "element": "#arrow", "modifier": "move", "duration": 1400, "parameters": [ 490, 170 ] },
                 { "element": "#a-text-3", "modifier": "opacity", "parameters": [ 1 ] },
                 { "element": "#ld-layer", "modifier": "opacity", "parameters": [ 0 ] }
               ],
@@ -299,7 +311,7 @@
               [
                 { "element": "#pc-text-2", "modifier": "opacity", "parameters": [ 0 ] },
                 { "element": "#pc-text-3", "modifier": "opacity", "parameters": [ 1 ] },
-                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 525, 95 ] },
+                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 525, 170 ] },
                 { "element": "#a-text-3", "modifier": "opacity", "parameters": [ 0 ] },
                 { "element": "#a-text-2", "modifier": "opacity", "parameters": [ 1 ] },
                 { "element": "#zero-0", "modifier": "opacity", "parameters": [ 1 ] },
@@ -311,35 +323,35 @@
               [
                 { "element": "#pc-text-3", "modifier": "opacity", "parameters": [ 0 ] },
                 { "element": "#pc-text-6", "modifier": "opacity", "parameters": [ 1 ] },
-                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 645, 95 ] }
+                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 645, 170 ] }
               ],
               [
                 { "element": "#jp-layer", "modifier": "opacity", "parameters": [ 0 ] },
                 { "element": "#pc-text-6", "modifier": "opacity", "parameters": [ 0 ] },
                 { "element": "#pc-text-2", "modifier": "opacity", "parameters": [ 1 ] },
-                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 490, 95 ] }
+                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 490, 170 ] }
               ],
               [
                 { "element": "#pc-text-2", "modifier": "opacity", "parameters": [ 0 ] },
                 { "element": "#pc-text-3", "modifier": "opacity", "parameters": [ 1 ] },
-                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 525, 95 ] },
+                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 525, 170 ] },
                 { "element": "#a-text-2", "modifier": "opacity", "parameters": [ 0 ] },
                 { "element": "#a-text-1", "modifier": "opacity", "parameters": [ 1 ] }
               ],
               [
                 { "element": "#pc-text-3", "modifier": "opacity", "parameters": [ 0 ] },
                 { "element": "#pc-text-6", "modifier": "opacity", "parameters": [ 1 ] },
-                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 645, 95 ] }
+                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 645, 170 ] }
               ],
               [
                 { "element": "#pc-text-6", "modifier": "opacity", "parameters": [ 0 ] },
                 { "element": "#pc-text-2", "modifier": "opacity", "parameters": [ 1 ] },
-                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 490, 95 ] }
+                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 490, 170 ] }
               ],
               [
                 { "element": "#pc-text-2", "modifier": "opacity", "parameters": [ 0 ] },
                 { "element": "#pc-text-3", "modifier": "opacity", "parameters": [ 1 ] },
-                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 525, 95 ] },
+                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 525, 170 ] },
                 { "element": "#a-text-1", "modifier": "opacity", "parameters": [ 0 ] },
                 { "element": "#a-text-0", "modifier": "opacity", "parameters": [ 1 ] },
                 { "element": "#zero-0", "modifier": "opacity", "parameters": [ 0 ] },
@@ -348,10 +360,10 @@
               [
                 { "element": "#pc-text-3", "modifier": "opacity", "parameters": [ 0 ] },
                 { "element": "#pc-text-6", "modifier": "opacity", "parameters": [ 1 ] },
-                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 645, 95 ] }
+                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 645, 170 ] }
               ],
               [
-                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 700, 95 ] }
+                { "element": "#arrow", "modifier": "move", "duration": 700, "parameters": [ 700, 170 ] }
               ]
               ]
             }
@@ -365,6 +377,18 @@
             src="image/opcode_table.png"
             alt="Table showing all the opcodes for GBZ80 assembly language"
           />
+        </section>
+
+        <section>
+          <h2>Debugging tools</h2>
+          <div class="side-by-side-container">
+            <img class="side-by-side-child" src="image/debug-tools.png" alt="CLI debugging tools" />
+
+            <p class="side-by-side-child">
+              Debugging tools don't need to be complicated but having the ability to see & step
+              through instructions and view registers & memory is helps when tracking infinite loops
+            </p>
+          </div>
         </section>
 
         <!-- -----------------------------------------------------------
@@ -543,53 +567,6 @@
             Video provided by media.ccc.de, The Ultimate Game Boy Talk (33c3),
             https://www.youtube.com/watch?v=HyzD8pNlpwI
           </aside>
-        </section>
-
-        <!-- -----------------------------------------------------------
-			WHAT'S TAKING SO LONG
-		----------------------------------------------------------- -->
-        <section data-background-color="rgb(185, 192, 179)">
-          <h2 style="font-family: 'PressStart2P'">How you spend 5 years on this</h2>
-        </section>
-
-        <section>
-          <span class="fragment"></span>
-          <span class="fragment"></span>
-          <span class="fragment"></span>
-          <span class="fragment"></span>
-          <span class="fragment"></span>
-          <div data-animate data-src="image/code-frequency.svg">
-            <!-- 
-              {
-                "setup": [
-                  { "element": "#label-1", "modifier": "attr", "parameters": [ {"class": "fragment", "data-fragment-index": "0"} ] },
-                  { "element": "#label-2-group", "modifier": "attr", "parameters": [ {"class": "fragment", "data-fragment-index": "1"} ] },
-                  { "element": "#label-3", "modifier": "attr", "parameters": [ {"class": "fragment", "data-fragment-index": "2"} ] },
-                  { "element": "#label-4", "modifier": "attr", "parameters": [ {"class": "fragment", "data-fragment-index": "3"} ] },
-                  { "element": "#label-5", "modifier": "attr", "parameters": [ {"class": "fragment", "data-fragment-index": "4"} ] }
-                ]
-              }
-             -->
-          </div>
-        </section>
-
-        <section>
-          <h2 class="r-fit-text">Picking priorities</h2>
-          <p>I had a set of priorities when writing my emulator</p>
-          <ol>
-            <li class="fragment">Learn Rust</li>
-            <li class="fragment">Use TDD as much as possible</li>
-            <li class="fragment">Work on a large piece of software</li>
-            <li class="fragment">Write a working emulator</li>
-          </ol>
-          <p class="fragment">My lowest priority was having working software</p>
-        </section>
-
-        <section data-background-image="image/journey.jpg" data-background-opacity="0.4">
-          <p>
-            I keep coming back to this project because writing it has been fun & writing it is more
-            interesting than seeing it completed
-          </p>
         </section>
 
         <!-- -----------------------------------------------------------

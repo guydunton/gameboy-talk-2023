@@ -24,11 +24,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.6154758"
+     inkscape:zoom="2.5433817"
      inkscape:cx="344.74999"
-     inkscape:cy="227.34249"
+     inkscape:cy="274.52377"
      inkscape:document-units="px"
-     inkscape:current-layer="cartridge-group"
+     inkscape:current-layer="audio-group"
      inkscape:document-rotation="0"
      showgrid="false"
      inkscape:window-width="2064"
@@ -173,7 +173,7 @@
            x="742.38379"
            y="751.2688"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.3239px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#ffffff;stroke-width:0.411311"
-           id="tspan62">4 channel audio </tspan></text>
+           id="tspan118">4 channel audio </tspan></text>
       <path
          style="fill:#008000;stroke:#008000;stroke-width:1.95609;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          d="m 731.64771,744.6388 h -104.927"
