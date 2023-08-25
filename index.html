@@ -69,22 +69,10 @@
             <li>A piece of software which behaves like something else</li>
             <li>In this case it's behaving as a Gameboy</li>
             <li>
-              Gameboy games are stored as bytes & our emulator converts the input & bytes into audio
-              & visual data
+              Gameboy games are stored as bytes & emulators convert the input & bytes into audio &
+              visual data
             </li>
           </ul>
-        </section>
-
-        <section>
-          <h2 class="r-fit-text">Picking priorities</h2>
-          <p>I had a set of priorities when writing my emulator</p>
-          <ol>
-            <li class="fragment">Learn Rust</li>
-            <li class="fragment">Use TDD as much as possible</li>
-            <li class="fragment">Work on a large piece of software</li>
-            <li class="fragment">Write a working emulator</li>
-          </ol>
-          <p class="fragment">My lowest priority was having working software</p>
         </section>
 
         <section>
@@ -94,6 +82,17 @@
             <li class="fragment">It's fun discovering how the Gameboy worked</li>
             <li class="fragment">It's a challenge</li>
           </ul>
+        </section>
+
+        <section>
+          <h2 class="r-fit-text">Why did I write an emulator?</h2>
+          <p>These are the things I wanted to achieve when I began writing my emulator:</p>
+          <ol>
+            <li class="fragment">Learn Rust</li>
+            <li class="fragment">Practices TDD</li>
+            <li class="fragment">Work on a large piece of software</li>
+            <li class="fragment">Be able to play game from my childhood</li>
+          </ol>
         </section>
 
         <section data-transition="slide-in fade-out">
@@ -198,9 +197,11 @@
           </section>
 
           <section>
-            <h2>Gameboy audio channel breakdown</h2>
-            <p>Channel 1 - Square 1</p>
-            <img src="image/audio-channel.svg" alt="" />
+            <h2>Gameboy audio square channel breakdown</h2>
+            <div class="grid-container">
+              <img src="image/audio-channel.svg" alt="" />
+              <img src="image/square-channel.svg" alt="" />
+            </div>
           </section>
         </section>
 
@@ -381,10 +382,9 @@
 
         <section>
           <h2>Debugging tools</h2>
-          <div class="side-by-side-container">
-            <img class="side-by-side-child" src="image/debug-tools.png" alt="CLI debugging tools" />
-
-            <p class="side-by-side-child">
+          <div class="grid-container">
+            <img src="image/debug-tools.png" alt="CLI debugging tools" />
+            <p>
               Debugging tools don't need to be complicated but having the ability to see & step
               through instructions and view registers & memory is helps when tracking infinite loops
             </p>
@@ -584,7 +584,7 @@
               If you want a working piece of software be ruthless with prioritising what you work on
             </li>
             <li class="fragment">
-              Personal projects don't have to be about creating working software
+              I've still got a long way to go but I'm still enjoying the process
             </li>
           </ul>
         </section>
