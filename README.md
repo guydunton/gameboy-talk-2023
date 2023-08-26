@@ -11,3 +11,10 @@
 - Audio generation helper: https://gbdev.gg8.se/wiki/articles/Gameboy_sound_hardware
 
 Written using [reveal.js](https://revealjs.com/)
+
+## Building the demo ROM
+
+```bash
+cd hello-gb
+make build
+```
